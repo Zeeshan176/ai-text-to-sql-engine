@@ -22,26 +22,32 @@ An enterprise-grade Text-to-SQL engine that translates natural language into exe
 
 ### 1. Start Infrastructure (Database & Cache)
 Ensure Docker is running, then spin up the PostgreSQL and Redis containers:
+
 ```bash
 docker-compose up -d
+```
 
 ### 2. Start the FastAPI Backend
 Open a terminal in the root directory and start the Uvicorn server:
+
 ```bash
 python -m uvicorn app.main:app --reload
+```
 
 ### 3. Start the React Frontend
 Open a new terminal, navigate to the frontend folder, and start the Vite development server:
+
 ```bash
 cd frontend
 npm run dev
+```
 
-👨‍💻 Author
-Mohammad Zeeshan
+## 👨‍💻 Author
 
-Full Stack AI Engineer
+**Mohammad Zeeshan**  
+*Full Stack AI Engineer*  
+[GitHub Profile](https://github.com/Zeeshan176) | [LinkedIn](https://linkedin.com/in/md-zeeshan-665907171/)
 
-GitHub Profile | LinkedIn
+## 📄 License
 
-📄 License
-This project is open-source and available under the MIT License.
+This project is open-source and available under the [MIT License](LICENSE).
