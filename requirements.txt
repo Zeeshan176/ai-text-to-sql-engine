@@ -5,3 +5,6 @@ pydantic
 sqlglot
 asyncpg
 redis
+pydantic-settings==2.15.0
+pytest
+httpx

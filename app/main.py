@@ -32,6 +32,9 @@ class ExecReq(BaseModel):
     sql_query: str
     tenant_id: int = 1  # 👈 Optional tenant_id so extra fields don't throw unexpected errors
 
+@app.get("/health")
+async def health():
+    return {"status": "ok"}
 
 @app.post("/generate")
 async def generate(req: QueryReq):
