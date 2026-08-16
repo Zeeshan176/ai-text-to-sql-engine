@@ -38,19 +38,19 @@ async def health():
 
 @app.post("/generate")
 async def generate(req: QueryReq):
+    # Input validation — runs first, before any cache/DB/LLM call
+    if not req.user_prompt.strip():
+        raise HTTPException(status_code=400, detail="user_prompt cannot be empty")
+    if len(req.user_prompt) > 500:
+        raise HTTPException(status_code=400, detail="user_prompt exceeds 500 characters")
+    if req.tenant_id < 1:
+        raise HTTPException(status_code=400, detail="tenant_id must be a positive integer")
+
     # 1. Check Redis Cache
     cached_result = await get_cached_sql(req.tenant_id, req.user_prompt)
     if cached_result:
         cached_result["cached"] = True
         return cached_result
-
-    # Input validation
-    if req.user_prompt == "":
-        raise HTTPException(status_code=400, detail="Invalid input")
-    if len(req.user_prompt) > 500:
-        raise HTTPException(status_code=400, detail="Invalid input")
-    if req.tenant_id < 0:
-        raise HTTPException(status_code=400, detail="Invalid input")
 
     # 2. Generate SQL via LLM if cache miss
     raw_sql = await generate_sql(req.user_prompt, MOCK_SCHEMA)

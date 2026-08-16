@@ -29,3 +29,12 @@ def test_generate_rejects_empty_prompt():
 def test_generate_rejects_negative_tenant():
     response = client.post("/generate", json={"user_prompt": "test", "tenant_id": -1})
     assert response.status_code == 400
+
+def test_generate_rejects_long_prompt():
+    response = client.post("/generate", json={"user_prompt": "x" * 501, "tenant_id": 1})
+    assert response.status_code == 400
+
+
+def test_generate_rejects_zero_tenant():
+    response = client.post("/generate", json={"user_prompt": "test", "tenant_id": 0})
+    assert response.status_code == 400
