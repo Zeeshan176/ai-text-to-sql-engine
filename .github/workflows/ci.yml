@@ -27,3 +27,12 @@ jobs:
 
       - name: Verify app imports cleanly
         run: python -c "from app.main import app; print('App imported successfully')"
+  
+  deploy:
+    needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger Render deploy
+        run: curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}"
