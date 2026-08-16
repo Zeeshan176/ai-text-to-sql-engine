@@ -44,6 +44,14 @@ async def generate(req: QueryReq):
         cached_result["cached"] = True
         return cached_result
 
+    # Input validation
+    if req.user_prompt == "":
+        raise HTTPException(status_code=400, detail="Invalid input")
+    if len(req.user_prompt) > 500:
+        raise HTTPException(status_code=400, detail="Invalid input")
+    if req.tenant_id < 0:
+        raise HTTPException(status_code=400, detail="Invalid input")
+
     # 2. Generate SQL via LLM if cache miss
     raw_sql = await generate_sql(req.user_prompt, MOCK_SCHEMA)
 

@@ -20,3 +20,12 @@ def test_guardrail_allows_select():
     from app.guardrails import SQLGuardrail
     is_safe, msg = SQLGuardrail.is_safe_query("SELECT * FROM users")
     assert is_safe is True
+
+def test_generate_rejects_empty_prompt():
+    response = client.post("/generate", json={"user_prompt": "", "tenant_id": 1})
+    assert response.status_code == 400
+
+
+def test_generate_rejects_negative_tenant():
+    response = client.post("/generate", json={"user_prompt": "test", "tenant_id": -1})
+    assert response.status_code == 400
